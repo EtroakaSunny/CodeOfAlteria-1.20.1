@@ -1,6 +1,7 @@
 package net.dorikku.codeofalteria;
 
 import com.mojang.logging.LogUtils;
+import net.dorikku.codeofalteria.item.ModItems;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -22,6 +23,10 @@ public class CodeOfAlteriaMod {
     public CodeOfAlteriaMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        ModCreativeModTabs.register(modEventBus);
+
+        ModItems.register(modEventBus);
+
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -34,7 +39,7 @@ public class CodeOfAlteriaMod {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-
+        
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
