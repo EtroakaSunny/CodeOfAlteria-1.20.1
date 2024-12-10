@@ -29,7 +29,7 @@ This project is licensed under the MIT License. See the [LICENSE](https://github
 
 ## Contact
 
-For any questions or support, feel free to open an issue or contact us via [email](mailto:support@example.com).
+For any questions or support, feel free to open an issue or contact us via [email](mailto:SonnenKrieger.esch@gmail.com).
 
 ---
 
