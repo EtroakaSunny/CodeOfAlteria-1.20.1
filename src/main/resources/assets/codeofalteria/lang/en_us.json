@@ -1,5 +1,11 @@
 {
   "item.codeofalteria.valid_ticket": "Valid Ticket",
   "item.codeofalteria.used_ticket": "Used Ticket",
-  "creativetab.codeofalteria_tab": "Code of Alteria"
+  "item.codeofalteria.day_ticket": "Day Ticket",
+  "creativetab.codeofalteria_tab": "Code of Alteria",
+  "itemGroup.codeofalteria": "Code of Alteria",
+
+  "message.day_ticket.saved_time": "Time saved!",
+  "message.day_ticket.invalid": "This ticket is invalid!",
+  "message.day_ticket.remaining_time": "Time until 1 AM: %s hours and %s minutes"
 }

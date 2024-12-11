@@ -17,9 +17,9 @@ public class ModCreativeModTabs {
             .displayItems(((itemDisplayParameters, output) -> {
                 output.accept(new ItemStack(ModItems.VALID_TICKET.get()));
                 output.accept(new ItemStack(ModItems.USED_TICKET.get()));
+                output.accept(new ItemStack(ModItems.DAY_TICKET.get()));
             }))
             .build());
-
 
 
     public static void register(IEventBus eventBus) {
