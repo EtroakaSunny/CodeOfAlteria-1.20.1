@@ -2,15 +2,15 @@ package net.dorikku.codeofalteria;
 
 import com.mojang.logging.LogUtils;
 import net.dorikku.codeofalteria.item.ModItems;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.PlayerChatMessage;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,11 +18,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
+import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 
-import java.awt.*;
-
-import static net.minecraft.world.entity.EntityType.PLAYER;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(CodeOfAlteriaMod.MOD_ID)
@@ -63,16 +63,24 @@ public class CodeOfAlteriaMod {
     @SubscribeEvent
     public void onPlayerChangeDim(EntityTravelToDimensionEvent event) {
         //Test if a player is trying
+        MobEffect heatResist = getHeatResist();
+
+        Player player = (Player) event.getEntity();
         if (event.getEntity() instanceof Player && event.getDimension() == Level.NETHER) {
 
             //Test if the user has a valid ticket
-            if (((Player) event.getEntity()).getInventory().contains(ModItems.VALID_TICKET.get().getDefaultInstance())) {
+            if (player.getInventory().contains(ModItems.VALID_TICKET.get().getDefaultInstance())) {
 
                 //If the user has a valid ticket, replace the ticket with a used ticket
-                for (int i = 0; i < ((Player) event.getEntity()).getInventory().getContainerSize(); i++) {
-                    if (((Player) event.getEntity()).getInventory().getItem(i).getItem() == ModItems.VALID_TICKET.get()) {
-                        ((Player) event.getEntity()).getInventory().removeItem(i, 1);
-                        ((Player) event.getEntity()).getInventory().add(ModItems.USED_TICKET.get().getDefaultInstance());
+                for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+                    if (player.getInventory().getItem(i).getItem() == ModItems.VALID_TICKET.get()) {
+                        player.getInventory().removeItem(i, 1);
+                        player.getInventory().add(ModItems.USED_TICKET.get().getDefaultInstance());
+
+                        //Give Player heat resistance from Legendary Survival Overhaul
+                        assert heatResist != null;
+                        player.addEffect(new MobEffectInstance(heatResist, 1000000, 0, false, false));
+
                         break;
                     }
                 }
@@ -83,7 +91,20 @@ public class CodeOfAlteriaMod {
                 event.setCanceled(true);
             }
 
+        } else if ((event.getEntity() instanceof Player && event.getDimension() == Level.OVERWORLD)) {
+
+            //Clear heat resistance from Legendary Survival Overhaul
+
+            assert heatResist != null;
+            // ((Player) event.getEntity()).getEffect(heatResist).getEffect()
+            player.removeEffect(heatResist);
+
         }
+    }
+
+
+    private static @Nullable MobEffect getHeatResist() {
+        return ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(LegendarySurvivalOverhaul.MOD_ID, "heat_resist"));
     }
 
 
