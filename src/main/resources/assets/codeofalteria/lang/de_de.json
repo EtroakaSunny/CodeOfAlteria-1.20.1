@@ -1,0 +1,11 @@
+{
+  "item.codeofalteria.valid_ticket": "Fahrkarte",
+  "item.codeofalteria.used_ticket": "Entwertete Fahrkarte",
+  "item.codeofalteria.day_ticket": "Tagesfahrkarte",
+  "creativetab.codeofalteria_tab": "Code of Alteria",
+  "itemGroup.codeofalteria": "Code of Alteria",
+
+  "message.day_ticket.saved_time": "Tagesfahrkarte aktiviert!",
+  "message.day_ticket.invalid": "Kein gültiges Ticket!",
+  "message.day_ticket.remaining_time": "Gültig für: %s Stunden und %s Minuten"
+}

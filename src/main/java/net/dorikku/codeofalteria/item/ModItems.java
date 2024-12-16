@@ -3,6 +3,7 @@ package net.dorikku.codeofalteria.item;
 
 import net.dorikku.codeofalteria.CodeOfAlteriaMod;
 import net.dorikku.codeofalteria.item.custom.DayTicketItem;
+import net.dorikku.codeofalteria.item.custom.FuelItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
