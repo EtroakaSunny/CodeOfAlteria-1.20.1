@@ -3,7 +3,6 @@ package net.dorikku.codeofalteria.event;
 import net.dorikku.codeofalteria.item.ModItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
@@ -11,8 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-
+import sfiomn.legendarysurvivaloverhaul.registry.MobEffectRegistry;
 import java.time.LocalDateTime;
 
 public class DimensionChangeEventHandler {
@@ -81,27 +79,36 @@ public class DimensionChangeEventHandler {
                 } else {
                     // Give Player heat resistance from Legendary Survival Overhaul
                     assert heatResist != null;
-                    player.addEffect(new MobEffectInstance(heatResist, 60000, 0, false, false, true));
+                    player.addEffect(new MobEffectInstance(heatResist, 1000000, 127, false, false, true));
+
                 }
             }
         }
     }
 
-    @SubscribeEvent
-    public void onPlayerReturnDim(EntityTravelToDimensionEvent event) {
-        // Check if the entity is a player
-        if (event.getEntity() instanceof Player player) {
-            // Check if the player is trying to enter the Overworld
-            if (event.getDimension().equals(Level.OVERWORLD)) {
-                MobEffect heatResist = getHeatResist();
-                // Remove heat resistance when returning to the Overworld
-                assert heatResist != null;
-                player.removeEffect(heatResist);
+        @SubscribeEvent
+        public void onPlayerReturnDim (EntityTravelToDimensionEvent event){
+            // Check if the entity is a player
+            if (event.getEntity() instanceof Player player) {
+                // Check if the player is trying to enter the Overworld
+                if (event.getDimension().equals(Level.OVERWORLD)) {
+                    MobEffect heatResist = getHeatResist();
+                    // Remove heat resistance when returning to the Overworld
+                    assert heatResist != null;
+                    player.removeEffect(heatResist);
+                }
             }
-        }
-    }
 
-    private static MobEffect getHeatResist() {
-        return ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation("legendarysurvivaloverhaul", "heat_resist"));
+
+
+        }
+
+
+
+
+    private MobEffect getHeatResist() {
+        // MobEffectRegistry.HEAT_RESISTANCE.get();
+        return MobEffectRegistry.HEAT_RESISTANCE.get();
+
     }
 }
